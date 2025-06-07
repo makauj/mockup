@@ -16,7 +16,7 @@ def create_collection(db: Session, data: CollectionCreate, read_only: bool, user
     db.refresh(db_entry)
     return db_entry
 
-def get_collections(db: Session, ID: int = None, read_only: bool = None):
+def get_collections(db: Session, ID: int, read_only: bool) -> list[Collection]:
     query = db.query(Collection)
     if ID:
         query = query.filter(Collection.ID == ID)
