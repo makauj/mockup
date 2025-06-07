@@ -17,8 +17,10 @@ class CollectionBase(BaseModel):
     Contact: Optional[str]
     Date: Optional[date]
 
+
 class CollectionCreate(CollectionBase):
     pass
+
 
 class CollectionUpdate(BaseModel):
     Name: Optional[str]
@@ -27,16 +29,8 @@ class CollectionUpdate(BaseModel):
     Date: Optional[date]
     last_updated_by: str
 
+
 class CollectionOut(CollectionBase):
-    record_id: int
-    read_only: bool
-    last_updated_by: Optional[str]
-    last_updated_at: datetime
-
-    class Config:
-        orm_mode = True
-
-class CollectionReadOnly(CollectionBase):
     record_id: int
     read_only: bool
     last_updated_by: Optional[str]
