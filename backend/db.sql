@@ -13,3 +13,18 @@ CREATE TABLE collections (
 
     FOREIGN KEY (ID) REFERENCES other_table(id)
 );
+
+CREATE OR REPLACE FUNCTION prevent_update_on_readonly()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF OLD.read_only THEN
+        RAISE EXCEPTION 'This row is read-only and cannot be updated';
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER check_readonly_before_update
+BEFORE UPDATE ON collections
+FOR EACH ROW
+EXECUTE FUNCTION prevent_update_on_readonly();
