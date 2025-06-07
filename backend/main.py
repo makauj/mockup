@@ -6,7 +6,7 @@ It also provides endpoints to read and update collections."""
 from fastapi import FastAPI, Depends, UploadFile, File, HTTPException
 from sqlalchemy.orm import Session
 from database import SessionLocal, engine
-import models, crud, schemas
+import models, crud, schemas # type: ignore
 from utils import parse_excel
 
 models.Base.metadata.create_all(bind=engine)
