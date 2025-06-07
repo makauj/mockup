@@ -28,3 +28,21 @@ CREATE TRIGGER check_readonly_before_update
 BEFORE UPDATE ON collections
 FOR EACH ROW
 EXECUTE FUNCTION prevent_update_on_readonly();
+
+CREATE OR REPLACE FUNCTION update_audit_fields()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.last_updated_at = CURRENT_TIMESTAMP;
+    -- Assume the application sets current_user for 'last_updated_by'
+    IF NEW.last_updated_by IS NULL THEN
+        NEW.last_updated_by = current_user;
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER update_audit_on_change
+BEFORE UPDATE ON collections
+FOR EACH ROW
+WHEN (OLD.* IS DISTINCT FROM NEW.*)
+EXECUTE FUNCTION update_audit_fields();
