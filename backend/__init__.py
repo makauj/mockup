@@ -2,7 +2,7 @@
 
 # Package exports and metadata for the backend package.
 from .main import app
-from .schemas import CollectionCreate, CollectionUpdate, CollectionOut, CollectionReadOnly
+from .schemas import CollectionCreate, CollectionUpdate, CollectionOut
 from .models import Collection
 from .crud import create_collection, get_collections, update_collection
 from .database import SessionLocal, engine
@@ -13,7 +13,6 @@ __all__ = [
     "CollectionCreate",
     "CollectionUpdate",
     "CollectionOut",
-    "CollectionReadOnly",
     "Collection",
     "create_collection",
     "get_collections",
