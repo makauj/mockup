@@ -3,11 +3,11 @@
 This application allows users to upload an Excel file containing collection
 data, which is then parsed and stored in a database.
 It also provides endpoints to read and update collections."""
-from fastapi import FastAPI, Depends, UploadFile, File, HTTPException
+from fastapi import FastAPI, Depends, UploadFile, File, HTTPException, Header
 from sqlalchemy.orm import Session
-from database import SessionLocal, engine
-import models, crud, schemas # type: ignore
-from utils import parse_excel
+from .database import SessionLocal, engine
+import .models, .crud, .schemas # type: ignore
+from .utils import parse_excel
 
 models.Base.metadata.create_all(bind=engine)
 app = FastAPI()
@@ -19,12 +19,16 @@ def get_db():
     finally:
         db.close()
 
+def get_current_user(x_user: str | None = Header(None)):
+    # simple header-based current user; replace with proper auth as needed
+    return x_user or "import_user"
+
 @app.post("/upload/")
-async def upload_excel(file: UploadFile = File(...), db: Session = Depends(get_db)):
+async def upload_excel(file: UploadFile = File(...), db: Session = Depends(get_db), user: str = Depends(get_current_user)):
     entries = parse_excel(file.file)
     results = []
     for entry, read_only in entries:
-        result = crud.create_collection(db, entry, read_only, user="import_user")
+        result = crud.create_collection(db, entry, read_only, user=user)
         results.append(result)
     return results
 

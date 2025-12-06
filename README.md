@@ -1,3 +1,5 @@
+# Collection System
+
 **************************************************************************************************************
 i am trying to populate a table in a database from an excel workbook.
 The table has 4 columns labeled Name, email, Contact, and ID. The ID column is a foreign key connecting the table to other tables in the DB.
@@ -10,11 +12,12 @@ Collected column is to be ignored when populating. the email column will also be
 
 You're essentially designing a system that populates a database table from an Excel workbook with specific rules for read-only/editable rows based on the completeness of data. Here's how you can approach this.
 ***************************************************************************************************************
+
 ---
 
-### **Step-by-step Plan**
+## **Step-by-step Plan**
 
-#### 1. **Database Table Design**
+### **1. Database Table Design**
 
 You'll modify your existing table by adding a `date` column and a `read_only` flag.
 

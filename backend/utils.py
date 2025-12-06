@@ -7,7 +7,7 @@ It assumes the Excel file has columns 'ID', 'Name', 'Contact', and 'Date'.
 """
 import pandas as pd
 from datetime import datetime
-from schemas import CollectionCreate
+from .schemas import CollectionCreate
 
 
 def parse_excel(file) -> list[CollectionCreate]:
