@@ -38,3 +38,6 @@ class CollectionOut(CollectionBase):
 
     class Config:
         orm_mode = True
+
+class ReadOnlyCollection(CollectionOut):
+    read_only: bool = True
