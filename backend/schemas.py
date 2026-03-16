@@ -5,17 +5,17 @@ This module defines Pydantic models for validating and serializing collection da
 It includes models for creating, updating, and reading collections,
 as well as handling read-only collections.
 """
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional
 from datetime import date, datetime
 
 
 class CollectionBase(BaseModel):
     ID: int
-    Name: Optional[str]
-    Email: Optional[str]
-    Contact: Optional[str]
-    Date: Optional[date]
+    Name: Optional[str] = None
+    Email: Optional[str] = None
+    Contact: Optional[str] = None
+    Date: Optional[date] = None
 
 
 class CollectionCreate(CollectionBase):
@@ -23,11 +23,10 @@ class CollectionCreate(CollectionBase):
 
 
 class CollectionUpdate(BaseModel):
-    Name: Optional[str]
-    Email: Optional[str]
-    Contact: Optional[str]
-    Date: Optional[date]
-    last_updated_by: str
+    Name: Optional[str] = None
+    Email: Optional[str] = None
+    Contact: Optional[str] = None
+    Date: Optional[date] = None
 
 
 class CollectionOut(CollectionBase):
@@ -36,8 +35,12 @@ class CollectionOut(CollectionBase):
     last_updated_by: Optional[str]
     last_updated_at: datetime
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 class ReadOnlyCollection(CollectionOut):
     read_only: bool = True
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
